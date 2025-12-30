@@ -31,30 +31,19 @@ async function main() {
           continue;
         }
 
-        const enhancedArticle = await prisma.article.create({
+        await prisma.article.update({
+          where: { id: article.id },
           data: {
-            title: article.title,
-            content: result.enhancedContent,
-            author: article.author,
-            publishedDate: article.publishedDate,
-            sourceUrl: article.sourceUrl,
+            enhancedContent: result.enhancedContent,
             isEnhanced: true,
-            originalArticleId: article.id,
             references: JSON.stringify(result.references),
             enhancedAt: new Date(),
             wordCount: result.enhancedContent.split(/\s+/).length,
           },
         });
 
-        await prisma.article.update({
-          where: { id: article.id },
-          data: {
-            enhancedArticleId: enhancedArticle.id,
-          },
-        });
-
         successCount++;
-        console.log(`   💾 Saved enhanced version (ID: ${enhancedArticle.id})\n`);
+        console.log(`   💾 Updated article (ID: ${article.id})\n`);
 
         await new Promise(resolve => setTimeout(resolve, 2000));
       } catch (error) {

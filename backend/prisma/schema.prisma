@@ -12,7 +12,8 @@ datasource db {
 model Article {
   id                Int       @id @default(autoincrement())
   title             String
-  content           String
+  content           String    // Original scraped content
+  enhancedContent   String?   // AI-enhanced content
   author            String?
   publishedDate     DateTime?
   sourceUrl         String?
