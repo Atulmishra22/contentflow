@@ -1,0 +1,37 @@
+{
+  "name": "contentflow-backend",
+  "version": "1.0.0",
+  "description": "Backend API for ContentFlow - AI-powered article enhancement",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "db:push": "prisma db push",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio"
+  },
+  "keywords": [
+    "express",
+    "api",
+    "sqlite",
+    "prisma",
+    "articles"
+  ],
+  "author": "Atul Mishra",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/adapter-better-sqlite3": "^7.2.0",
+    "@prisma/client": "^7.2.0",
+    "axios": "^1.13.2",
+    "better-sqlite3": "^12.5.0",
+    "cheerio": "^1.1.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "prisma": "^7.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}

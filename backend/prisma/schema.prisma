@@ -1,0 +1,28 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Article {
+  id                Int       @id @default(autoincrement())
+  title             String
+  content           String
+  author            String?
+  publishedDate     DateTime?
+  sourceUrl         String?
+  isEnhanced        Boolean   @default(false)
+  originalArticleId Int?
+  enhancedArticleId Int?
+  references        String?   // JSON string of references array
+  scrapedAt         DateTime?
+  enhancedAt        DateTime?
+  wordCount         Int?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
