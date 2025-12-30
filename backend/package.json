@@ -9,7 +9,9 @@
     "dev": "nodemon src/server.js",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "enhance": "node src/scripts/enhance.js",
+    "seed": "node src/utils/seed.js"
   },
   "keywords": [
     "express",
@@ -21,6 +23,7 @@
   "author": "Atul Mishra",
   "license": "MIT",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@prisma/adapter-better-sqlite3": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "axios": "^1.13.2",
@@ -29,7 +32,8 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "prisma": "^7.2.0"
+    "prisma": "^7.2.0",
+    "serpapi": "^2.2.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"
