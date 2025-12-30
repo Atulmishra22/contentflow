@@ -9,9 +9,6 @@ dotenv.config();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
 
-/**
- * Search Google for article title using SerpAPI
- */
 export async function searchGoogle(query, limit = 2) {
   try {
     const results = await getJson({
@@ -34,9 +31,6 @@ export async function searchGoogle(query, limit = 2) {
   }
 }
 
-/**
- * Scrape main content from a URL
- */
 export async function scrapeContent(url) {
   try {
     const { data } = await axios.get(url, {
@@ -66,9 +60,6 @@ export async function scrapeContent(url) {
   }
 }
 
-/**
- * Enhance article using Gemini AI with reference content
- */
 export async function enhanceArticle(originalArticle, references) {
   try {
     const prompt = `
@@ -104,9 +95,6 @@ Enhanced Article:`;
   }
 }
 
-/**
- * Full enhancement pipeline for a single article
- */
 export async function enhanceArticlePipeline(article) {
   console.log(`\n🔄 Enhancing: "${article.title}"`);
 

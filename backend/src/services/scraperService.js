@@ -3,11 +3,6 @@ import * as cheerio from 'cheerio';
 
 const BEYONDCHATS_BLOG_URL = 'https://beyondchats.com/blogs';
 
-/**
- * Scrape articles from BeyondChats blog
- * @param {number} limit - Number of articles to scrape
- * @returns {Promise<Array>} Array of scraped articles
- */
 export const scrapeBeyondChatsArticles = async (limit = 5) => {
   try {
     console.log('🔍 Fetching BeyondChats blog...');
@@ -15,7 +10,6 @@ export const scrapeBeyondChatsArticles = async (limit = 5) => {
     const $ = cheerio.load(html);
     const articles = [];
 
-    // Select article elements (adjust selectors based on actual website structure)
     $('.blog-item, article, .post-item').each((index, element) => {
       if (articles.length >= limit) return false;
 

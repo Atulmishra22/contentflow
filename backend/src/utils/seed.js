@@ -1,14 +1,10 @@
 import prisma from '../config/database.js';
 import { scrapeBeyondChatsArticles } from '../services/scraperService.js';
 
-/**
- * Seed database with scraped articles from BeyondChats
- */
 async function seedArticles() {
   try {
     console.log('🌱 Starting database seeding...\n');
 
-    // Check if articles already exist
     const existingCount = await prisma.article.count();
     if (existingCount > 0) {
       console.log(`⚠️  Database already has ${existingCount} articles`);
@@ -16,13 +12,11 @@ async function seedArticles() {
       return;
     }
 
-    // Scrape articles
     console.log('📡 Scraping BeyondChats blog...');
     const scrapedArticles = await scrapeBeyondChatsArticles(5);
 
     if (scrapedArticles.length === 0) {
       console.log('⚠️  No articles scraped. Using sample data...');
-      // Fallback to sample data if scraping fails
       const sampleArticles = [
         {
           title: 'The Future of AI in Customer Service',

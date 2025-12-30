@@ -5,7 +5,6 @@ async function main() {
   console.log('🚀 Starting Article Enhancement Pipeline\n');
 
   try {
-    // Get all original articles (non-enhanced)
     const articles = await prisma.article.findMany({
       where: {
         isEnhanced: false,
@@ -32,7 +31,6 @@ async function main() {
           continue;
         }
 
-        // Create enhanced version
         const enhancedArticle = await prisma.article.create({
           data: {
             title: article.title,
@@ -48,7 +46,6 @@ async function main() {
           },
         });
 
-        // Update original article to reference enhanced version
         await prisma.article.update({
           where: { id: article.id },
           data: {
@@ -59,7 +56,6 @@ async function main() {
         successCount++;
         console.log(`   💾 Saved enhanced version (ID: ${enhancedArticle.id})\n`);
 
-        // Rate limiting - wait 2 seconds between articles
         await new Promise(resolve => setTimeout(resolve, 2000));
       } catch (error) {
         console.error(`   ❌ Failed to enhance article ${article.id}:`, error.message);

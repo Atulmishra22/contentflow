@@ -1,6 +1,5 @@
 import prisma from '../config/database.js';
 
-// Get all articles
 export const getAllArticles = async (req, res) => {
   try {
     const { page = 1, limit = 10, enhanced } = req.query;
@@ -51,7 +50,7 @@ export const getArticleById = async (req, res) => {
   }
 };
 
-// Create article
+
 export const createArticle = async (req, res) => {
   try {
     const { title, content, author, publishedDate, sourceUrl, isEnhanced, references } = req.body;
@@ -82,7 +81,6 @@ export const createArticle = async (req, res) => {
   }
 };
 
-// Update article
 export const updateArticle = async (req, res) => {
   try {
     const { id } = req.params;
@@ -112,7 +110,6 @@ export const updateArticle = async (req, res) => {
   }
 };
 
-// Delete article
 export const deleteArticle = async (req, res) => {
   try {
     const { id } = req.params;
