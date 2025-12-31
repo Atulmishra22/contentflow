@@ -25,11 +25,11 @@
 
   /* Typography */
   .text-enhanced {
-    @apply text-zinc-900 leading-relaxed text-base mb-4 font-serif break-words overflow-wrap-anywhere;
+    @apply text-zinc-900 leading-relaxed text-base mb-4 font-serif break-words;
   }
 
   .text-raw {
-    @apply font-mono text-sm text-zinc-600 leading-relaxed break-words overflow-wrap-anywhere whitespace-pre-wrap;
+    @apply font-mono text-sm text-zinc-600 leading-relaxed break-words whitespace-pre-wrap;
   }
 
   /* Reference Components */
