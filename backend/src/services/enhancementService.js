@@ -55,7 +55,7 @@ export async function scrapeContent(url) {
 
     return content.trim().slice(0, 5000);
   } catch (error) {
-    console.error(`❌ Failed to scrape ${url}:`, error.message);
+    console.error(`Failed to scrape ${url}:`, error.message);
     return '';
   }
 }
@@ -115,25 +115,25 @@ Write the ${targetWords}-word article now:
 
     return enhancedContent;
   } catch (error) {
-    console.error('❌ AIPipe API error:', error.response?.data || error.message);
+    console.error('AIPipe API error:', error.response?.data || error.message);
     throw error;
   }
 }
 
 export async function enhanceArticlePipeline(article) {
-  console.log(`\n🔄 Enhancing: "${article.title}"`);
+  console.log(`\nEnhancing: "${article.title}"`);
 
-  console.log('   🔍 Searching Google...');
+  console.log('   Searching Google...');
   const searchResults = await searchGoogle(article.title, 2);
   
   if (searchResults.length === 0) {
-    console.log('   ⚠️  No search results found, skipping...');
+    console.log('   WARNING: No search results found, skipping...');
     return null;
   }
 
-  console.log(`   ✅ Found ${searchResults.length} references`);
+  console.log(`   Found ${searchResults.length} references`);
 
-  console.log('   📡 Scraping reference content...');
+  console.log('   Scraping reference content...');
   const references = [];
   
   for (const result of searchResults) {
@@ -148,16 +148,16 @@ export async function enhanceArticlePipeline(article) {
   }
 
   if (references.length === 0) {
-    console.log('   ⚠️  No content scraped, skipping...');
+    console.log('   WARNING: No content scraped, skipping...');
     return null;
   }
 
-  console.log(`   ✅ Scraped ${references.length} references`);
+  console.log(`   Scraped ${references.length} references`);
 
-  console.log('   🤖 Enhancing with Gemini AI...');
+  console.log('   Enhancing with Gemini AI...');
   const enhancedContent = await enhanceArticle(article, references);
 
-  console.log('   ✅ Enhancement complete!');
+  console.log('   Enhancement complete!');
 
   return {
     enhancedContent,

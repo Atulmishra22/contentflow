@@ -5,7 +5,7 @@ const BEYONDCHATS_BLOG_URL = 'https://beyondchats.com/blogs';
 
 export const scrapeBeyondChatsArticles = async (limit = 5) => {
   try {
-    console.log('🔍 Fetching BeyondChats blog...');
+    console.log('Fetching BeyondChats blog...');
     const { data: html } = await axios.get(BEYONDCHATS_BLOG_URL);
     const $ = cheerio.load(html);
     const articles = [];
@@ -33,7 +33,7 @@ export const scrapeBeyondChatsArticles = async (limit = 5) => {
     });
 
     if (articles.length === 0) {
-      console.log('⚠️  No articles found with specific selectors, using generic approach...');
+      console.log('WARNING: No articles found with specific selectors, using generic approach...');
       
       $('article, .post, [class*="blog"], [class*="article"]').each((index, element) => {
         if (articles.length >= limit) return false;
@@ -54,10 +54,10 @@ export const scrapeBeyondChatsArticles = async (limit = 5) => {
       });
     }
 
-    console.log(`✅ Scraped ${articles.length} articles from BeyondChats`);
+    console.log(`Scraped ${articles.length} articles from BeyondChats`);
     return articles.slice(0, limit);
   } catch (error) {
-    console.error('❌ Scraping error:', error.message);
+    console.error('Scraping error:', error.message);
     throw new Error(`Failed to scrape articles: ${error.message}`);
   }
 };

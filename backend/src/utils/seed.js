@@ -16,11 +16,11 @@ async function seedArticles() {
     const scrapedArticles = await scrapeBeyondChatsArticles(5);
 
     if (scrapedArticles.length === 0) {
-      console.log('❌ No articles scraped from BeyondChats. Exiting...');
+      console.log('ERROR: No articles scraped from BeyondChats. Exiting...');
       return;
     }
 
-    console.log(`\n💾 Inserting ${scrapedArticles.length} articles into database...`);
+    console.log(`\nInserting ${scrapedArticles.length} articles into database...`);
     
     for (const article of scrapedArticles) {
       const wordCount = article.content.split(/\s+/).length;
@@ -37,12 +37,12 @@ async function seedArticles() {
         }
       });
       
-      console.log(`   ✅ ${article.title}`);
+      console.log(`   ${article.title}`);
     }
 
     console.log(`\n🎉 Successfully seeded ${scrapedArticles.length} articles!\n`);
   } catch (error) {
-    console.error('❌ Seeding error:', error);
+    console.error('Seeding error:', error);
     throw error;
   } finally {
     await prisma.$disconnect();

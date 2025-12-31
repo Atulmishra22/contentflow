@@ -40,7 +40,7 @@ async function autoSeed() {
   try {
     const count = await prisma.article.count();
     if (count === 0) {
-      console.log('📦 Database is empty. Auto-seeding...');
+      console.log('Database is empty. Auto-seeding...');
       const articles = await scrapeBeyondChatsArticles(5);
       
       if (articles.length > 0) {
@@ -58,15 +58,15 @@ async function autoSeed() {
             }
           });
         }
-        console.log(`✅ Auto-seeded ${articles.length} articles from BeyondChats`);
+        console.log(`Auto-seeded ${articles.length} articles from BeyondChats`);
         return true;
       } else {
-        console.log('⚠️  No articles found during auto-seeding');
+        console.log('WARNING: No articles found during auto-seeding');
       }
     }
     return false;
   } catch (error) {
-    console.error('❌ Auto-seed error:', error.message);
+    console.error('Auto-seed error:', error.message);
     return false;
   }
 }
@@ -81,15 +81,15 @@ async function autoEnhance() {
     });
 
     if (unenhancedArticles.length === 0) {
-      console.log('✅ All articles are already enhanced');
+      console.log('All articles are already enhanced');
       return;
     }
 
-    console.log(`\n🤖 Auto-enhancing ${unenhancedArticles.length} articles...`);
+    console.log(`\nAuto-enhancing ${unenhancedArticles.length} articles...`);
 
     for (const article of unenhancedArticles) {
       try {
-        console.log(`\n🔄 Enhancing: "${article.title}"`);
+        console.log(`\nEnhancing: "${article.title}"`);
         const result = await enhanceArticlePipeline(article);
 
         if (result) {
@@ -103,24 +103,24 @@ async function autoEnhance() {
               wordCount: result.enhancedContent.split(/\s+/).length,
             },
           });
-          console.log(`   ✅ Enhanced successfully`);
+          console.log(`   Enhanced successfully`);
         }
 
         await new Promise(resolve => setTimeout(resolve, 2000));
       } catch (error) {
-        console.error(`   ❌ Failed to enhance: ${error.message}`);
+        console.error(`   Failed to enhance: ${error.message}`);
       }
     }
 
-    console.log(`\n✅ Auto-enhancement complete!\n`);
+    console.log(`\nAuto-enhancement complete!\n`);
   } catch (error) {
-    console.error('❌ Auto-enhance error:', error.message);
+    console.error('Auto-enhance error:', error.message);
   }
 }
 
 app.listen(PORT, async () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📊 Health check: http://localhost:${PORT}/health`);
+  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Health check: http://localhost:${PORT}/health`);
   
   const wasSeeded = await autoSeed();
   await autoEnhance();

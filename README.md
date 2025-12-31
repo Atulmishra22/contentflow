@@ -1,6 +1,16 @@
 # ContentFlow - AI-Powered Article Enhancement System
 
+<div align="center">
+  <img src="assets/hero-banner.png" alt="ContentFlow - AI-Powered Article Enhancement" width="900"/>
+</div>
+
+<br/>
+
 Fully automated article scraping and AI enhancement pipeline built with React, Express, SQLite, and Google Gemini AI via AIPipe.
+
+> **Live Demo:** Deployed on Railway  
+> - **Backend:** https://contentflow-production-2fe6.up.railway.app  
+> - **Frontend:** https://contentflow-production-609d.up.railway.app
 
 ## 🚀 Features
 
