@@ -33,8 +33,8 @@ export default function ContentPanel({ article, viewMode, setViewMode, onBackToL
   }
 
   return (
-    <main className="flex-1 bg-zinc-50/50 overflow-y-auto relative w-full">
-      <div className="max-w-4xl mx-auto min-h-full flex flex-col px-2 md:px-0">
+    <main className="h-full bg-zinc-50/50 overflow-y-auto relative w-full">
+      <div className="max-w-4xl mx-auto">
         {/* Mobile Back Button */}
         {onBackToList && (
           <div className="md:hidden p-4 border-b border-zinc-200 bg-white sticky top-0 z-10">
@@ -54,7 +54,7 @@ export default function ContentPanel({ article, viewMode, setViewMode, onBackToL
           setViewMode={setViewMode} 
         />
         
-        <div className="p-2 md:p-6 lg:p-12 flex-1">
+        <div className="p-4 md:p-6 lg:p-12">
           <div className="card-container">
             
             {viewMode === 'enhanced' ? (

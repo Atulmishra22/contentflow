@@ -3,7 +3,7 @@
 @layer components {
   /* Card Components */
   .card-container {
-    @apply bg-white rounded-2xl border border-zinc-200 shadow-sm p-4 md:p-8 lg:p-12 min-h-[600px] transition-all;
+    @apply bg-white rounded-2xl border border-zinc-200 shadow-sm p-4 md:p-8 lg:p-12 transition-all;
   }
 
   .content-box {

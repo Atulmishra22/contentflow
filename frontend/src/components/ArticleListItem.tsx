@@ -37,12 +37,14 @@ export default function ArticleListItem({ article, active, onClick }: ArticleLis
           </h3>
         </div>
         <div className="flex items-center justify-between">
-          <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${
-            active ? 'bg-zinc-700 text-zinc-300' : 'bg-zinc-100 text-zinc-500'
-          }`}>
-            {getStatus()}
-          </span>
-          <span className={`text-[11px] ${active ? 'text-zinc-400' : 'text-zinc-400'}`}>
+          {article.isEnhanced && (
+            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${
+              active ? 'bg-zinc-700 text-zinc-300' : 'bg-zinc-100 text-zinc-500'
+            }`}>
+              COMPLETED
+            </span>
+          )}
+          <span className={`text-[11px] ${active ? 'text-zinc-400' : 'text-zinc-400'} ${!article.isEnhanced ? 'ml-auto' : ''}`}>
             {formatDate(article.publishedDate)}
           </span>
         </div>

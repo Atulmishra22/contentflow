@@ -11,45 +11,48 @@ export default function App() {
   const [viewMode, setViewMode] = useState<'original' | 'enhanced'>('enhanced');
   const [activeTab, setActiveTab] = useState('dashboard');
   const [loading, setLoading] = useState(true);
-  const [showMobileList, setShowMobileList] = useState(true); // Mobile: show list or content
+  const [showMobileList, setShowMobileList] = useState(true);
+  const [isPolling, setIsPolling] = useState(true);
+
+  const fetchArticles = async () => {
+    try {
+      const response = await articleApi.getAllArticles(1, 100);
+      setArticles(response.data);
+      if (response.data.length > 0 && !selectedId) {
+        setSelectedId(response.data[0].id);
+      }
+      
+      const hasUnenhanced = response.data.some(article => !article.isEnhanced);
+      if (!hasUnenhanced && response.data.length > 0) {
+        setIsPolling(false);
+      }
+      
+      return response.data;
+    } catch (error) {
+      console.error('Failed to fetch articles:', error);
+      return [];
+    }
+  };
 
   useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        setLoading(true);
-        const response = await articleApi.getAllArticles(1, 100);
-        setArticles(response.data);
-        if (response.data.length > 0 && !selectedId) {
-          setSelectedId(response.data[0].id);
-        }
-        return response.data;
-      } catch (error) {
-        console.error('Failed to fetch articles:', error);
-        return [];
-      } finally {
-        setLoading(false);
-      }
+    const loadInitial = async () => {
+      setLoading(true);
+      await fetchArticles();
+      setLoading(false);
     };
-
-    // Initial fetch
-    fetchArticles();
     
-    // Smart polling: only refresh if there are unenhanced articles
+    loadInitial();
+  }, []);
+
+  useEffect(() => {
+    if (!isPolling) return;
+    
     const interval = setInterval(async () => {
-      const currentArticles = await fetchArticles();
-      
-      // Check if all articles are enhanced
-      const hasUnenhanced = currentArticles.some(article => !article.isEnhanced);
-      
-      // If all enhanced, stop polling
-      if (!hasUnenhanced && currentArticles.length > 0) {
-        console.log('✅ All articles enhanced - stopping auto-refresh');
-        clearInterval(interval);
-      }
-    }, 3000); // Check every 3 seconds while enhancing
+      await fetchArticles();
+    }, 5000);
     
     return () => clearInterval(interval);
-  }, [selectedId]);
+  }, [isPolling]);
 
   const selectedArticle = articles.find(a => a.id === selectedId) || null;
 
@@ -82,7 +85,7 @@ export default function App() {
         </div>
         
         {/* Content Panel - Hidden on mobile when list is shown */}
-        <div className={`${showMobileList ? 'hidden' : 'block'} md:block flex-1`}>
+        <div className={`${showMobileList ? 'hidden' : 'block'} md:block flex-1 overflow-hidden`}>
           <ContentPanel 
             article={selectedArticle}
             viewMode={viewMode}
