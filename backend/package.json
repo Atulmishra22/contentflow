@@ -4,6 +4,9 @@
   "description": "Backend API for ContentFlow - AI-powered article enhancement",
   "main": "src/server.js",
   "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "start": "npx prisma generate && npx prisma db push && node src/server.js",
     "dev": "nodemon src/server.js",
