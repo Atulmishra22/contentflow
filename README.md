@@ -163,7 +163,13 @@ SEARCHAPI_KEY=your_searchapi_key_here  # Get from https://searchapi.io
 - Loading states and progress indicators
 
 ## 🏗️ Architecture
-│   └── database.js          # Prisma client
+
+```
+contentflow/
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   │   └── database.js          # Prisma client
 │   │   ├── routes/
 │   │   │   └── articleRoutes.js     # API routes
 │   │   ├── controllers/
@@ -195,26 +201,18 @@ SEARCHAPI_KEY=your_searchapi_key_here  # Get from https://searchapi.io
 │   │   └── main.tsx                 # Entry point
 │   ├── vite.config.ts
 │   └── package.json
-Frontend Auto-Updates
+└── README.md
 ```
 
-**Component Structure:**
+**Component Architecture:**
 - Separation of concerns (CSS in index.css, logic in TypeScript)
 - Reusable component classes
 - Type-safe with TypeScript
 - Clean, maintainable code
 - System fonts for performance
-- Clean, professional styling
+- Professional styling
 
-## 📁 Project Structure
-
-```
-contentflow/
-├── backend/
-│   ├── src/
-│   │   ├── config/
-│   │   ├── routes/
-│   │ Available Scripts
+## � Available Scripts
 
 ### Backend
 ```bash
@@ -278,24 +276,7 @@ npx prisma migrate reset --force
 ✅ **Token Optimization**: 50-word generation for efficiency  
 ✅ **Reference Citations**: Proper attribution with external links  
 ✅ **Error Handling**: Graceful fallbacks for failed scrapes  
-✅ **Production Ready**: Environment-based configuration └── package.json
-├── enhancement-script/
-│   └── enhance.js
-└── README.md
-```
-
-## 🚀 Development
-
-```bash
-# Run backend
-cd backend && npm run dev
-
-# Run frontend
-cd frontend && npm run dev
-
-# Run enhancement script
-cd enhancement-script && node enhance.js
-```
+✅ **Production Ready**: Environment-based configuration
 
 ## 📝 License
 
