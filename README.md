@@ -271,12 +271,12 @@ npx prisma migrate reset --force
 - Check CORS is enabled (it is by default)
 - Clear browser cache and reload
 
-## 🚀 Deployment to Railway
+## 🚀 Deployment
 
-### Deploy Both Backend and Frontend on Railway
+### Deploy Backend to Render
 
-1. **Create Railway Account**
-   - Go to [Railway.app](https://railway.app)
+1. **Create Render Account**
+   - Go to [Render.com](https://render.com)
    - Sign up with GitHub
 
 2. **Push to GitHub**
@@ -284,72 +284,95 @@ npx prisma migrate reset --force
    git push origin main
    ```
 
-3. **Deploy Backend Service**
-   - Click "New Project" → "Deploy from GitHub repo"
-   - Select your `contentflow` repository
-   - Click on the service → Settings → Set **Root Directory** to `backend`
-   - Rename service to "contentflow-backend"
+3. **Create Web Service**
+   - Click "New +" → "Web Service"
+   - Connect your GitHub repository
+   - Select `contentflow` repository
 
-4. **Add Backend Environment Variables**
-   - Go to Variables tab and add:
+4. **Configure Service**
+   - **Name:** `contentflow-backend`
+   - **Root Directory:** `backend`
+   - **Environment:** `Node`
+   - **Build Command:** `npm install && npx prisma generate && npx prisma db push`
+   - **Start Command:** `npm start`
+   - **Plan:** Free
+
+5. **Add Environment Variables**
+   - Click "Advanced" → Add environment variables:
      ```
      NODE_ENV=production
      DATABASE_URL=file:./prod.db
      AIPIPE_KEY=your_aipipe_key
      SEARCHAPI_KEY=your_searchapi_key
      ```
-   - Leave `FRONTEND_URL` empty for now
 
-5. **Generate Backend Domain**
-   - Go to Settings → Generate Domain
-   - Copy the URL (e.g., `https://contentflow-backend.up.railway.app`)
+6. **Deploy Backend**
+   - Click "Create Web Service"
+   - Wait for deployment (5-10 min first time)
+   - Copy your backend URL (e.g., `https://contentflow-backend.onrender.com`)
 
-6. **Deploy Frontend Service**
-   - In the same project, click "+ New"
-   - Select "GitHub Repo" → Same repository
-   - Click on service → Settings → Set **Root Directory** to `frontend`
-   - Rename service to "contentflow-frontend"
+### Deploy Frontend to Vercel
 
-7. **Add Frontend Environment Variable**
-   - Go to Variables tab and add:
+1. **Install Vercel CLI**
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Deploy Frontend**
+   ```bash
+   cd frontend
+   vercel
+   ```
+   - Follow prompts
+   - When asked for project name: `contentflow-frontend`
+   - Choose default settings
+
+3. **Add Environment Variable**
+   - Go to Vercel dashboard → Your project → Settings → Environment Variables
+   - Add:
      ```
-     VITE_API_URL=https://contentflow-backend.up.railway.app/api
+     VITE_API_URL=https://contentflow-backend.onrender.com/api
      ```
-   - Use your actual backend URL from step 5
+   - Redeploy: `vercel --prod`
 
-8. **Generate Frontend Domain**
-   - Go to Settings → Generate Domain
-   - Copy the URL (e.g., `https://contentflow-frontend.up.railway.app`)
+4. **Update Backend CORS**
+   - Go to Render dashboard → Your backend service
+   - Environment → Add variable:
+     ```
+     FRONTEND_URL=https://contentflow-frontend.vercel.app
+     ```
+   - Service will auto-redeploy
 
-9. **Update Backend CORS**
-   - Go back to backend service → Variables
-   - Add `FRONTEND_URL=https://contentflow-frontend.up.railway.app`
-   - Backend will auto-redeploy
+5. **Done!**
+   - Visit your Vercel URL
+   - Backend wakes from sleep (if inactive)
+   - Articles auto-scrape and enhance on first run
 
-10. **Done!**
-    - Visit your frontend URL
-    - Articles will auto-scrape and enhance on first run
+### Post-Deployment Notes
 
-10. **Done!**
-    - Visit your frontend URL
-    - Articles will auto-scrape and enhance on first run
+**Render Free Tier:**
+- ✅ Free forever (750 hours/month)
+- ⚠️ Sleeps after 15 min inactivity
+- ⏱️ Wakes in ~30 seconds on first request
+- 💡 Tip: Use [UptimeRobot](https://uptimerobot.com) to ping every 14 min to keep awake
 
-### Alternative: Deploy to Vercel (Frontend) + Railway (Backend)
+**Alternative: Deploy Frontend to Render Too**
 
-If you prefer Vercel for frontend:
-- Deploy backend to Railway (steps 3-5 above)
-- Deploy frontend to Vercel: `cd frontend && vercel`
-- Add `VITE_API_URL` in Vercel environment variables
+If you prefer both on Render:
+- Create another Web Service for frontend
+- **Build Command:** `npm run build`
+- **Start Command:** `npx serve -s dist`
+- Add `VITE_API_URL` environment variable
 
 ### Post-Deployment Checklist
 
-✅ Backend service running on Railway  
-✅ Frontend service running on Railway  
-✅ `VITE_API_URL` set in frontend variables  
-✅ `FRONTEND_URL` set in backend variables  
-✅ Both domains generated and accessible  
+✅ Backend deployed on Render  
+✅ Frontend deployed on Vercel (or Render)  
+✅ `VITE_API_URL` set in frontend  
+✅ `FRONTEND_URL` set in backend  
 ✅ CORS configured correctly  
-✅ Database auto-seeded on first backend startup
+✅ Database auto-seeded on first startup  
+✅ APIs working (test health check endpoint)
 
 ## 🎯 Key Features Implemented
 

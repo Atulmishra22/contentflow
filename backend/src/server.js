@@ -37,7 +37,6 @@ app.use((err, req, res, next) => {
 });
 
 async function autoSeed() {
-async function autoSeed() {
   try {
     const count = await prisma.article.count();
     if (count === 0) {
