@@ -24,7 +24,7 @@ export const scrapeBeyondChatsArticles = async (limit = 5) => {
       if (title && content) {
         articles.push({
           title,
-          content: content.substring(0, 500) + '...', // Limit excerpt
+          content: content.substring(0, 500) + '...',
           author: author || 'BeyondChats Team',
           publishedDate: dateText ? new Date(dateText) : new Date(),
           sourceUrl: link ? (link.startsWith('http') ? link : `https://beyondchats.com${link}`) : BEYONDCHATS_BLOG_URL
@@ -32,7 +32,6 @@ export const scrapeBeyondChatsArticles = async (limit = 5) => {
       }
     });
 
-    // If no articles found with specific selectors, try generic approach
     if (articles.length === 0) {
       console.log('⚠️  No articles found with specific selectors, using generic approach...');
       
@@ -56,7 +55,7 @@ export const scrapeBeyondChatsArticles = async (limit = 5) => {
     }
 
     console.log(`✅ Scraped ${articles.length} articles from BeyondChats`);
-    return articles.slice(0, limit); // Ensure we return exact limit
+    return articles.slice(0, limit);
   } catch (error) {
     console.error('❌ Scraping error:', error.message);
     throw new Error(`Failed to scrape articles: ${error.message}`);
@@ -78,10 +77,8 @@ export const scrapeArticleContent = async (url) => {
     
     const $ = cheerio.load(html);
     
-    // Remove unwanted elements
     $('script, style, nav, footer, header, aside, .advertisement').remove();
     
-    // Extract main content
     const title = $('h1, .title, .post-title, article h1').first().text().trim();
     const content = $('article, .post-content, .content, main, .entry-content')
       .first()

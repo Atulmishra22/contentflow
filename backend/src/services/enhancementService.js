@@ -44,10 +44,8 @@ export async function scrapeContent(url) {
 
     const $ = cheerio.load(data);
 
-    // Remove unwanted elements
-    $('script, style, nav, header, footer, iframe, noscript').remove();
+    $('script', 'style, nav, header, footer, iframe, noscript').remove();
 
-    // Try to find main content
     const content = 
       $('article').text() ||
       $('main').text() ||
@@ -55,7 +53,7 @@ export async function scrapeContent(url) {
       $('.post-content').text() ||
       $('body').text();
 
-    return content.trim().slice(0, 5000); // Limit to 5000 chars
+    return content.trim().slice(0, 5000);
   } catch (error) {
     console.error(`❌ Failed to scrape ${url}:`, error.message);
     return '';
@@ -64,7 +62,7 @@ export async function scrapeContent(url) {
 
 export async function enhanceArticle(originalArticle, references) {
   try {
-    const targetWords = 50; // Reduced for lower token usage
+    const targetWords = 50;
     
     const prompt = `You are an expert technical content writer. Create a very concise article.
 
@@ -125,7 +123,6 @@ Write the ${targetWords}-word article now:
 export async function enhanceArticlePipeline(article) {
   console.log(`\n🔄 Enhancing: "${article.title}"`);
 
-  // Step 1: Search Google for top 2 results
   console.log('   🔍 Searching Google...');
   const searchResults = await searchGoogle(article.title, 2);
   
@@ -136,7 +133,6 @@ export async function enhanceArticlePipeline(article) {
 
   console.log(`   ✅ Found ${searchResults.length} references`);
 
-  // Step 2: Scrape content from each result
   console.log('   📡 Scraping reference content...');
   const references = [];
   
@@ -158,7 +154,6 @@ export async function enhanceArticlePipeline(article) {
 
   console.log(`   ✅ Scraped ${references.length} references`);
 
-  // Step 3: Enhance with AI
   console.log('   🤖 Enhancing with Gemini AI...');
   const enhancedContent = await enhanceArticle(article, references);
 

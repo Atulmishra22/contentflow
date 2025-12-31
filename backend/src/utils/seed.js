@@ -20,7 +20,6 @@ async function seedArticles() {
       return;
     }
 
-    // Insert articles into database
     console.log(`\n💾 Inserting ${scrapedArticles.length} articles into database...`);
     
     for (const article of scrapedArticles) {
@@ -50,5 +49,4 @@ async function seedArticles() {
   }
 }
 
-// Run seeder
 seedArticles();

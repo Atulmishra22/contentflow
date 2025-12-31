@@ -32,7 +32,6 @@ export const getAllArticles = async (req, res) => {
   }
 };
 
-// Get article by ID
 export const getArticleById = async (req, res) => {
   try {
     const { id } = req.params;
