@@ -59,7 +59,7 @@ Fully automated article scraping and AI enhancement pipeline built with React, E
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/Atulmishra22/contentflow.git
 cd contentflow
 
 # Backend setup
