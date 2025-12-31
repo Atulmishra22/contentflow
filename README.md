@@ -273,10 +273,16 @@ npx prisma migrate reset --force
 
 ## 🚀 Deployment
 
-### Deploy Backend to Render
+> **Live Demo:** This project is deployed on Railway  
+> - **Backend:** https://contentflow-production-2fe6.up.railway.app  
+> - **Frontend:** https://contentflow-production-609d.up.railway.app
 
-1. **Create Render Account**
-   - Go to [Render.com](https://render.com)
+### Option 1: Deploy to Railway (Used for this project)
+
+**Deploy Backend**
+
+1. **Create Railway Account**
+   - Go to [Railway.app](https://railway.app)
    - Sign up with GitHub
 
 2. **Push to GitHub**
@@ -284,21 +290,14 @@ npx prisma migrate reset --force
    git push origin main
    ```
 
-3. **Create Web Service**
-   - Click "New +" → "Web Service"
-   - Connect your GitHub repository
-   - Select `contentflow` repository
+3. **Deploy Backend Service**
+   - Click "New Project" → "Deploy from GitHub repo"
+   - Select your `contentflow` repository
+   - Click service → Settings → Set **Root Directory** to `backend`
+   - Rename service to "contentflow-backend"
 
-4. **Configure Service**
-   - **Name:** `contentflow-backend`
-   - **Root Directory:** `backend`
-   - **Environment:** `Node`
-   - **Build Command:** `npm install && npx prisma generate && npx prisma db push`
-   - **Start Command:** `npm start`
-   - **Plan:** Free
-
-5. **Add Environment Variables**
-   - Click "Advanced" → Add environment variables:
+4. **Add Backend Environment Variables**
+   - Go to Variables tab:
      ```
      NODE_ENV=production
      DATABASE_URL=file:./prod.db
@@ -306,73 +305,99 @@ npx prisma migrate reset --force
      SEARCHAPI_KEY=your_searchapi_key
      ```
 
-6. **Deploy Backend**
-   - Click "Create Web Service"
-   - Wait for deployment (5-10 min first time)
-   - Copy your backend URL (e.g., `https://contentflow-backend.onrender.com`)
+5. **Generate Backend Domain**
+   - Settings → Generate Domain
+   - Copy URL (e.g., `https://contentflow-backend.up.railway.app`)
 
-### Deploy Frontend to Vercel
+**Deploy Frontend**
 
-1. **Install Vercel CLI**
+6. **Deploy Frontend Service**
+   - In same project, click "+ New" → "GitHub Repo"
+   - Select `contentflow` repository again
+   - Click service → Settings → Set **Root Directory** to `frontend`
+   - Rename service to "contentflow-frontend"
+
+7. **Add Frontend Environment Variable**
+   - Go to Variables tab:
+     ```
+     VITE_API_URL=https://your-backend-url.up.railway.app/api
+     ```
+
+8. **Generate Frontend Domain**
+   - Settings → Generate Domain
+   - Copy URL
+
+9. **Update Backend CORS**
+   - Go to backend service → Variables
+   - Add:
+     ```
+     FRONTEND_URL=https://your-frontend-url.up.railway.app
+     ```
+
+10. **Done!**
+    - Visit frontend URL
+    - Backend auto-seeds and enhances articles
+
+**Note:** Railway offers $5 starter credit, then pay-as-you-go.
+
+### Option 2: Deploy to Render (Completely Free)
+
+**Deploy Backend**
+
+1. **Create Render Account**
+   - Go to [Render.com](https://render.com)
+   - Sign up with GitHub
+
+2. **Create Web Service**
+   - Click "New +" → "Web Service"
+   - Connect repository → Select `contentflow`
+
+3. **Configure Service**
+   - **Name:** `contentflow-backend`
+   - **Root Directory:** `backend`
+   - **Build Command:** `npm install && npx prisma generate && npx prisma db push`
+   - **Start Command:** `npm start`
+   - **Plan:** Free
+
+4. **Add Environment Variables**
+     ```
+     NODE_ENV=production
+     DATABASE_URL=file:./prod.db
+     AIPIPE_KEY=your_aipipe_key
+     SEARCHAPI_KEY=your_searchapi_key
+     ```
+
+5. **Deploy Frontend to Vercel**
    ```bash
    npm i -g vercel
-   ```
-
-2. **Deploy Frontend**
-   ```bash
    cd frontend
    vercel
    ```
-   - Follow prompts
-   - When asked for project name: `contentflow-frontend`
-   - Choose default settings
 
-3. **Add Environment Variable**
-   - Go to Vercel dashboard → Your project → Settings → Environment Variables
-   - Add:
-     ```
-     VITE_API_URL=https://contentflow-backend.onrender.com/api
-     ```
+6. **Add Frontend Environment Variable**
+   - Vercel dashboard → Settings → Environment Variables
+   - Add: `VITE_API_URL=https://your-backend.onrender.com/api`
    - Redeploy: `vercel --prod`
 
-4. **Update Backend CORS**
-   - Go to Render dashboard → Your backend service
-   - Environment → Add variable:
-     ```
-     FRONTEND_URL=https://contentflow-frontend.vercel.app
-     ```
-   - Service will auto-redeploy
-
-5. **Done!**
-   - Visit your Vercel URL
-   - Backend wakes from sleep (if inactive)
-   - Articles auto-scrape and enhance on first run
-
-### Post-Deployment Notes
+7. **Update Backend CORS**
+   - Render → Backend service → Environment
+   - Add: `FRONTEND_URL=https://your-frontend.vercel.app`
 
 **Render Free Tier:**
 - ✅ Free forever (750 hours/month)
-- ⚠️ Sleeps after 15 min inactivity
-- ⏱️ Wakes in ~30 seconds on first request
-- 💡 Tip: Use [UptimeRobot](https://uptimerobot.com) to ping every 14 min to keep awake
-
-**Alternative: Deploy Frontend to Render Too**
-
-If you prefer both on Render:
-- Create another Web Service for frontend
-- **Build Command:** `npm run build`
-- **Start Command:** `npx serve -s dist`
-- Add `VITE_API_URL` environment variable
+- ⚠️ Sleeps after 15 min inactivity  
+- ⏱️ Wakes in ~30 seconds
 
 ### Post-Deployment Checklist
 
-✅ Backend deployed on Render  
-✅ Frontend deployed on Vercel (or Render)  
-✅ `VITE_API_URL` set in frontend  
-✅ `FRONTEND_URL` set in backend  
+✅ Backend deployed (Railway or Render)  
+✅ Frontend deployed (Railway or Vercel)  
+✅ `VITE_API_URL` set in frontend variables  
+✅ `FRONTEND_URL` set in backend variables  
+✅ Both services accessible via URLs  
 ✅ CORS configured correctly  
 ✅ Database auto-seeded on first startup  
-✅ APIs working (test health check endpoint)
+✅ Articles being enhanced automatically
 
 ## 🎯 Key Features Implemented
 
@@ -384,7 +409,7 @@ If you prefer both on Render:
 ✅ **Token Optimization**: 50-word generation for efficiency  
 ✅ **Reference Citations**: Proper attribution with external links  
 ✅ **Error Handling**: Graceful fallbacks for failed scrapes  
-✅ **Production Ready**: Environment-based configuration
+✅ **Production Ready**: Deployed on Railway
 
 ## 📝 License
 
