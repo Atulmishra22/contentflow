@@ -16,11 +16,6 @@ export default function ArticleListItem({ article, active, onClick }: ArticleLis
     });
   };
 
-  const getStatus = () => {
-    if (article.isEnhanced) return 'completed';
-    return 'pending';
-  };
-
   return (
     <button 
       onClick={onClick}
