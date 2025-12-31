@@ -271,6 +271,86 @@ npx prisma migrate reset --force
 - Check CORS is enabled (it is by default)
 - Clear browser cache and reload
 
+## 🚀 Deployment to Railway
+
+### Deploy Both Backend and Frontend on Railway
+
+1. **Create Railway Account**
+   - Go to [Railway.app](https://railway.app)
+   - Sign up with GitHub
+
+2. **Push to GitHub**
+   ```bash
+   git push origin main
+   ```
+
+3. **Deploy Backend Service**
+   - Click "New Project" → "Deploy from GitHub repo"
+   - Select your `contentflow` repository
+   - Click on the service → Settings → Set **Root Directory** to `backend`
+   - Rename service to "contentflow-backend"
+
+4. **Add Backend Environment Variables**
+   - Go to Variables tab and add:
+     ```
+     NODE_ENV=production
+     DATABASE_URL=file:./prod.db
+     AIPIPE_KEY=your_aipipe_key
+     SEARCHAPI_KEY=your_searchapi_key
+     ```
+   - Leave `FRONTEND_URL` empty for now
+
+5. **Generate Backend Domain**
+   - Go to Settings → Generate Domain
+   - Copy the URL (e.g., `https://contentflow-backend.up.railway.app`)
+
+6. **Deploy Frontend Service**
+   - In the same project, click "+ New"
+   - Select "GitHub Repo" → Same repository
+   - Click on service → Settings → Set **Root Directory** to `frontend`
+   - Rename service to "contentflow-frontend"
+
+7. **Add Frontend Environment Variable**
+   - Go to Variables tab and add:
+     ```
+     VITE_API_URL=https://contentflow-backend.up.railway.app/api
+     ```
+   - Use your actual backend URL from step 5
+
+8. **Generate Frontend Domain**
+   - Go to Settings → Generate Domain
+   - Copy the URL (e.g., `https://contentflow-frontend.up.railway.app`)
+
+9. **Update Backend CORS**
+   - Go back to backend service → Variables
+   - Add `FRONTEND_URL=https://contentflow-frontend.up.railway.app`
+   - Backend will auto-redeploy
+
+10. **Done!**
+    - Visit your frontend URL
+    - Articles will auto-scrape and enhance on first run
+
+10. **Done!**
+    - Visit your frontend URL
+    - Articles will auto-scrape and enhance on first run
+
+### Alternative: Deploy to Vercel (Frontend) + Railway (Backend)
+
+If you prefer Vercel for frontend:
+- Deploy backend to Railway (steps 3-5 above)
+- Deploy frontend to Vercel: `cd frontend && vercel`
+- Add `VITE_API_URL` in Vercel environment variables
+
+### Post-Deployment Checklist
+
+✅ Backend service running on Railway  
+✅ Frontend service running on Railway  
+✅ `VITE_API_URL` set in frontend variables  
+✅ `FRONTEND_URL` set in backend variables  
+✅ Both domains generated and accessible  
+✅ CORS configured correctly  
+✅ Database auto-seeded on first backend startup
+
 ## 🎯 Key Features Implemented
 
 ✅ **Fully Automated Pipeline**: Zero manual intervention needed  
