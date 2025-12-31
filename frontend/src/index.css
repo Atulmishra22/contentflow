@@ -3,15 +3,15 @@
 @layer components {
   /* Card Components */
   .card-container {
-    @apply bg-white rounded-2xl border border-zinc-200 shadow-sm p-4 md:p-8 lg:p-12 transition-all;
+    @apply bg-white rounded-2xl border border-zinc-200 shadow-sm p-4 md:p-8 lg:p-12 transition-all overflow-hidden;
   }
 
   .content-box {
-    @apply bg-white p-4 md:p-6 rounded-xl border border-zinc-200;
+    @apply bg-white p-4 md:p-6 rounded-xl border border-zinc-200 overflow-hidden;
   }
 
   .raw-content-box {
-    @apply bg-zinc-50 p-4 md:p-6 rounded-xl border border-zinc-200;
+    @apply bg-zinc-50 p-4 md:p-6 rounded-xl border border-zinc-200 overflow-hidden;
   }
 
   /* Badge Components */
@@ -25,11 +25,11 @@
 
   /* Typography */
   .text-enhanced {
-    @apply text-zinc-900 leading-relaxed text-base mb-4 font-serif;
+    @apply text-zinc-900 leading-relaxed text-base mb-4 font-serif break-words overflow-wrap-anywhere;
   }
 
   .text-raw {
-    @apply font-mono text-sm text-zinc-600 leading-relaxed;
+    @apply font-mono text-sm text-zinc-600 leading-relaxed break-words overflow-wrap-anywhere whitespace-pre-wrap;
   }
 
   /* Reference Components */

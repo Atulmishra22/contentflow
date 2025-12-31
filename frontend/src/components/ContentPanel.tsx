@@ -34,7 +34,7 @@ export default function ContentPanel({ article, viewMode, setViewMode, onBackToL
 
   return (
     <main className="h-full bg-zinc-50/50 overflow-y-auto relative w-full">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto w-full">
         {/* Mobile Back Button */}
         {onBackToList && (
           <div className="md:hidden p-4 border-b border-zinc-200 bg-white sticky top-0 z-10">
@@ -54,8 +54,8 @@ export default function ContentPanel({ article, viewMode, setViewMode, onBackToL
           setViewMode={setViewMode} 
         />
         
-        <div className="p-4 md:p-6 lg:p-12">
-          <div className="card-container">
+        <div className="p-4 md:p-6 lg:p-12 w-full">
+          <div className="card-container w-full">
             
             {viewMode === 'enhanced' ? (
               article.isEnhanced && article.enhancedContent ? (
@@ -64,7 +64,7 @@ export default function ContentPanel({ article, viewMode, setViewMode, onBackToL
                     <CheckCircle size={12} /> AI Optimized Version
                   </div>
                   <div className="content-box">
-                    <div className="prose prose-zinc max-w-none">
+                    <div className="prose prose-zinc max-w-none w-full overflow-hidden">
                       {article.enhancedContent.split('\n\n').map((p, i) => (
                         <p key={i} className="text-enhanced">{p}</p>
                       ))}

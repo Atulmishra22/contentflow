@@ -9,8 +9,8 @@ interface ContentHeaderProps {
 export default function ContentHeader({ title, viewMode, setViewMode }: ContentHeaderProps) {
   return (
     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 border-b border-zinc-100 bg-white/80 backdrop-blur-md sticky top-0 z-10">
-      <div className="min-w-0">
-        <h2 className="text-xl font-bold text-zinc-900 truncate tracking-tight">{title}</h2>
+      <div className="min-w-0 flex-1">
+        <h2 className="text-xl font-bold text-zinc-900 break-words tracking-tight">{title}</h2>
         <div className="flex items-center gap-2 mt-1">
           <span className="text-xs font-medium text-zinc-400 flex items-center gap-1">
             <Globe size={12} /> Source: BeyondChats
@@ -18,7 +18,7 @@ export default function ContentHeader({ title, viewMode, setViewMode }: ContentH
         </div>
       </div>
       
-      <div className="inline-flex p-1 bg-zinc-100 rounded-xl w-fit">
+      <div className="inline-flex p-1 bg-zinc-100 rounded-xl w-fit shrink-0">
         <button 
           onClick={() => setViewMode('original')}
           className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${
