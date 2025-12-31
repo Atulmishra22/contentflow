@@ -1,4 +1,4 @@
-import { BarChart3, Settings, Layers } from 'lucide-react';
+import { BarChart3, Layers } from 'lucide-react';
 
 interface NavigationProps {
   activeTab: string;
@@ -25,22 +25,6 @@ export default function Navigation({ activeTab, setActiveTab }: NavigationProps)
           <BarChart3 size={20} />
           <span className="font-semibold text-sm hidden lg:block">Dashboard</span>
         </button>
-        <button 
-          onClick={() => setActiveTab('settings')}
-          className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
-            activeTab === 'settings' ? 'bg-zinc-100 text-zinc-900' : 'text-zinc-400 hover:text-zinc-600'
-          }`}
-        >
-          <Settings size={20} />
-          <span className="font-semibold text-sm hidden lg:block">Config</span>
-        </button>
-      </div>
-      
-      <div className="p-6 mt-auto">
-        <div className="w-full aspect-square lg:aspect-auto lg:h-10 bg-zinc-100 rounded-xl flex items-center justify-center lg:justify-start lg:px-3 gap-2">
-          <div className="w-6 h-6 rounded-full bg-zinc-300" />
-          <span className="text-xs font-bold hidden lg:block">Intern_User</span>
-        </div>
       </div>
     </nav>
   );

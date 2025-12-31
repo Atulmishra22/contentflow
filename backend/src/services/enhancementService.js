@@ -1,12 +1,11 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+const AIPIPE_API_URL = 'https://aipipe.org/geminiv1beta/models/gemini-2.5-flash:generateContent';
+const AIPIPE_TOKEN = process.env.AIPIPE_KEY;
 
 export async function searchGoogle(query, limit = 2) {
   try {
@@ -14,7 +13,7 @@ export async function searchGoogle(query, limit = 2) {
       params: {
         engine: 'google',
         q: query,
-        api_key: process.env.SERPAPI_KEY,
+        api_key: process.env.SEARCHAPI_KEY,
         num: limit,
       },
     });
@@ -25,6 +24,8 @@ export async function searchGoogle(query, limit = 2) {
       snippet: result.snippet,
     })) || [];
 
+    console.log(`   📊 SearchAPI returned ${response.data.organic_results?.length || 0} results, using ${links.length}`);
+    
     return links;
   } catch (error) {
     console.error('❌ SearchAPI error:', error.message);
@@ -63,43 +64,60 @@ export async function scrapeContent(url) {
 
 export async function enhanceArticle(originalArticle, references) {
   try {
-    const targetWords = Math.max(500, originalArticle.wordCount * 10);
+    const targetWords = 50; // Reduced for lower token usage
     
-    const prompt = `You are an expert technical content writer tasked with creating a comprehensive, in-depth article.
+    const prompt = `You are an expert technical content writer. Create a very concise article.
 
 ORIGINAL ARTICLE:
 Title: ${originalArticle.title}
 Content: ${originalArticle.content}
 
-REFERENCE MATERIALS FOR RESEARCH:
+REFERENCE MATERIALS:
 ${references.map((ref, i) => `
 [Reference ${i + 1}] ${ref.title}
 Source: ${ref.url}
-Content: ${ref.content.substring(0, 3000)}
+Content: ${ref.content.substring(0, 500)}
 `).join('\n')}
 
-WRITING REQUIREMENTS:
-1. Create a DETAILED, COMPREHENSIVE article of approximately ${targetWords} words
-2. Write in a professional, engaging, and informative style
-3. Include specific examples, statistics, and insights from the reference materials
-4. Structure with clear paragraphs - write at least 5-8 substantial paragraphs
-5. Expand on key concepts with detailed explanations
-6. Use concrete examples and real-world applications
-7. Maintain factual accuracy using the provided references
-8. Write naturally - NO meta-commentary, NO introductions like "Here is...", just start with the content
+REQUIREMENTS:
+1. Write EXACTLY ${targetWords} words - no more, no less
+2. Make it professional and informative
+3. Use key insights from references
+4. Write 1-2 paragraphs maximum
+5. NO introductions like "Here is..." - just start with the content
 
-Begin writing the enhanced article now (minimum ${targetWords} words):
+Write the ${targetWords}-word article now:
 
 `;
 
-    const result = await model.generateContent(prompt);
-    const enhancedContent = result.response.text();
+    const response = await axios.post(
+      AIPIPE_API_URL,
+      {
+        contents: [
+          {
+            parts: [
+              {
+                text: prompt
+              }
+            ]
+          }
+        ]
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${AIPIPE_TOKEN}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    const enhancedContent = response.data.candidates[0].content.parts[0].text;
     
     console.log(`   📝 Generated ${enhancedContent.split(/\s+/).length} words`);
 
     return enhancedContent;
   } catch (error) {
-    console.error('❌ Gemini AI error:', error.message);
+    console.error('❌ AIPipe API error:', error.response?.data || error.message);
     throw error;
   }
 }

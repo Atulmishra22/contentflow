@@ -11,6 +11,7 @@ export default function App() {
   const [viewMode, setViewMode] = useState<'original' | 'enhanced'>('enhanced');
   const [activeTab, setActiveTab] = useState('dashboard');
   const [loading, setLoading] = useState(true);
+  const [showMobileList, setShowMobileList] = useState(true); // Mobile: show list or content
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -21,16 +22,31 @@ export default function App() {
         if (response.data.length > 0 && !selectedId) {
           setSelectedId(response.data[0].id);
         }
+        return response.data;
       } catch (error) {
         console.error('Failed to fetch articles:', error);
+        return [];
       } finally {
         setLoading(false);
       }
     };
 
+    // Initial fetch
     fetchArticles();
     
-    const interval = setInterval(fetchArticles, 5000);
+    // Smart polling: only refresh if there are unenhanced articles
+    const interval = setInterval(async () => {
+      const currentArticles = await fetchArticles();
+      
+      // Check if all articles are enhanced
+      const hasUnenhanced = currentArticles.some(article => !article.isEnhanced);
+      
+      // If all enhanced, stop polling
+      if (!hasUnenhanced && currentArticles.length > 0) {
+        console.log('✅ All articles enhanced - stopping auto-refresh');
+        clearInterval(interval);
+      }
+    }, 3000); // Check every 3 seconds while enhancing
     
     return () => clearInterval(interval);
   }, [selectedId]);
@@ -53,17 +69,27 @@ export default function App() {
       <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
       
       <div className="flex-1 flex overflow-hidden">
-        <ArticleListPanel 
-          articles={articles}
-          selectedId={selectedId}
-          onSelectArticle={setSelectedId}
-        />
+        {/* Article List - Hidden on mobile when content is shown */}
+        <div className={`${showMobileList ? 'block' : 'hidden'} md:block`}>
+          <ArticleListPanel 
+            articles={articles}
+            selectedId={selectedId}
+            onSelectArticle={(id) => {
+              setSelectedId(id);
+              setShowMobileList(false); // Switch to content view on mobile
+            }}
+          />
+        </div>
         
-        <ContentPanel 
-          article={selectedArticle}
-          viewMode={viewMode}
-          setViewMode={setViewMode}
-        />
+        {/* Content Panel - Hidden on mobile when list is shown */}
+        <div className={`${showMobileList ? 'hidden' : 'block'} md:block flex-1`}>
+          <ContentPanel 
+            article={selectedArticle}
+            viewMode={viewMode}
+            setViewMode={setViewMode}
+            onBackToList={() => setShowMobileList(true)} // Back button for mobile
+          />
+        </div>
       </div>
     </div>
   );

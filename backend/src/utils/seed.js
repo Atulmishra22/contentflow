@@ -16,46 +16,8 @@ async function seedArticles() {
     const scrapedArticles = await scrapeBeyondChatsArticles(5);
 
     if (scrapedArticles.length === 0) {
-      console.log('⚠️  No articles scraped. Using sample data...');
-      const sampleArticles = [
-        {
-          title: 'The Future of AI in Customer Service',
-          content: 'Artificial Intelligence is revolutionizing how businesses interact with customers. From chatbots to predictive analytics, AI tools are making customer service faster, more efficient, and more personalized than ever before. Companies that embrace these technologies are seeing significant improvements in customer satisfaction and operational efficiency.',
-          author: 'BeyondChats Team',
-          publishedDate: new Date('2024-01-15'),
-          sourceUrl: 'https://beyondchats.com/blogs/ai-customer-service'
-        },
-        {
-          title: 'Building Better Chatbots: A Complete Guide',
-          content: 'Creating effective chatbots requires more than just implementing AI. It requires understanding user needs, designing intuitive conversations, and continuously improving based on feedback. This guide covers everything from initial planning to deployment and maintenance of successful chatbot systems.',
-          author: 'Tech Team',
-          publishedDate: new Date('2024-01-10'),
-          sourceUrl: 'https://beyondchats.com/blogs/chatbot-guide'
-        },
-        {
-          title: 'Understanding Natural Language Processing',
-          content: 'Natural Language Processing (NLP) is the backbone of modern conversational AI. It enables machines to understand, interpret, and generate human language in ways that are both meaningful and useful. This article explores the key concepts and applications of NLP in business.',
-          author: 'BeyondChats Team',
-          publishedDate: new Date('2024-01-05'),
-          sourceUrl: 'https://beyondchats.com/blogs/nlp-explained'
-        },
-        {
-          title: 'Customer Engagement in the Digital Age',
-          content: 'Digital transformation has fundamentally changed how companies engage with customers. Modern consumers expect instant responses, personalized experiences, and seamless omnichannel interactions. Learn how to meet these expectations and build lasting customer relationships.',
-          author: 'Marketing Team',
-          publishedDate: new Date('2023-12-28'),
-          sourceUrl: 'https://beyondchats.com/blogs/digital-engagement'
-        },
-        {
-          title: 'Automation and Efficiency: The Perfect Pair',
-          content: 'Business automation is no longer optional—it\'s essential for staying competitive. By automating routine tasks and workflows, companies can free up their teams to focus on high-value work while improving accuracy and speed. Discover the key areas where automation can make the biggest impact.',
-          author: 'BeyondChats Team',
-          publishedDate: new Date('2023-12-20'),
-          sourceUrl: 'https://beyondchats.com/blogs/automation-efficiency'
-        }
-      ];
-
-      scrapedArticles.push(...sampleArticles);
+      console.log('❌ No articles scraped from BeyondChats. Exiting...');
+      return;
     }
 
     // Insert articles into database

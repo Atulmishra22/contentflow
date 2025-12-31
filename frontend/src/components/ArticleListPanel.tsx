@@ -9,7 +9,7 @@ interface ArticleListPanelProps {
 
 export default function ArticleListPanel({ articles, selectedId, onSelectArticle }: ArticleListPanelProps) {
   return (
-    <aside className="hidden md:flex flex-col w-80 lg:w-96 bg-white border-r border-zinc-200 overflow-y-auto p-6 shrink-0">
+    <aside className="flex flex-col w-full md:w-80 lg:w-96 bg-white border-r border-zinc-200 overflow-y-auto p-6 shrink-0">
       <div className="mb-6">
         <h2 className="text-lg font-bold text-zinc-900">Task Phase 1-3</h2>
         <p className="text-xs text-zinc-400">Manage scraped & rewritten blogs</p>
