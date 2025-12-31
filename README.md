@@ -121,6 +121,7 @@ No manual seeding or enhancement commands needed!
 PORT=5000
 DATABASE_URL="file:./dev.db"
 NODE_ENV=development
+FRONTEND_URL=http://localhost:5173  # For production, set to your deployed frontend URL
 AIPIPE_KEY=your_aipipe_token_here  # Get from https://aipipe.org
 SEARCHAPI_KEY=your_searchapi_key_here  # Get from https://searchapi.io
 ```
@@ -128,6 +129,10 @@ SEARCHAPI_KEY=your_searchapi_key_here  # Get from https://searchapi.io
 **Required API Keys:**
 - **AIPipe**: Free Gemini API access - Sign up at https://aipipe.org
 - **SearchAPI**: Google Search API - Free tier at https://searchapi.io
+
+**CORS Configuration:**
+- `FRONTEND_URL`: Defaults to `http://localhost:5173` for development
+- For production: Set to your deployed frontend URL (e.g., `https://yourapp.vercel.app`)
 
 ## 🎯 API Endpoints
 
